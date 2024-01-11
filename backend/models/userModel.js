@@ -3,10 +3,12 @@ const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema(
   {
-    email: { type: "String", unique: true, required: true },
-    password: { type: "String", required: true },
+    name: { type: String, required: true },
+    dateOfBirth: { type: Date, required: true },
+    email: { type: String, unique: true, required: true },
+    password: { type: String, required: true },
   },
-  { timestaps: true }
+  { timestamps: true }
 );
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
@@ -14,7 +16,7 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 userSchema.pre("save", async function (next) {
-  if (!this.isModified) {
+  if (!this.isModified("password")) {
     next();
   }
 

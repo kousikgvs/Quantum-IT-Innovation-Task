@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const generateToken = require("../config/generateToken");
+const arr = require("./GenerateData.js")
 
 //@description     Register new user
 //@route           POST /api/user/
@@ -61,4 +62,11 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, authUser };
+
+const GenerateData = asyncHandler(async (req, res) => {
+  res.json({
+    arr
+  })
+});
+
+module.exports = { registerUser, authUser , GenerateData };

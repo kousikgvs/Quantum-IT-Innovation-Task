@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import "./Login.css";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
@@ -11,32 +11,43 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  useEffect(() => {
+    const userData = localStorage.getItem('userData');
+    if (userData) {
+      navigate("/dashboard");
+    }
+  }, [localStorage.getItem('userData')]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
       const config = {
         headers: {
           "Content-type": "application/json",
         },
       };
-
+  
       const response = await axios.post('http://127.0.0.1:5000/api/user/login', {
         email,
         password,
       }, config);
-
-      console.log(response);
-
+  
+      const { token, userData } = response.data;
+  
+      localStorage.setItem('token', token);
+      localStorage.setItem('userData', JSON.stringify(userData));
+  
       toast.success('Login successful!');
-
+  
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
-
+  
       toast.error(`Login failed: ${error.response ? error.response.data.message : 'Unexpected error'}`);
     }
   };
+  
 
   return (
     <div className='Loginpage'>

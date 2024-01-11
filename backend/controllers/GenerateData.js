@@ -36,5 +36,5 @@ const arr = [];
 for (let i = 0; i < 100; i++) {
     arr.push(generateRandomElement(i));
 }
-  
-export default arr;
+
+module.exports ={arr}

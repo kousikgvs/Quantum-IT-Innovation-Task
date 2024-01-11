@@ -5,7 +5,6 @@ import Dashboard from "./Dashboard/Dashboard"
 import Signup from "./Signup/Signup"
 const App = () => {
   return (
-    <div>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -13,7 +12,6 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
-    </div>
   )
 }
 

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import "./Signup.css";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -8,14 +11,39 @@ const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [dob, setDob] = useState('');
-  const [confirmEmail, setConfirmEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmpassword, setConfirmpassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // You can access the values in name, email, dob, confirmEmail, and password here
-    // Add your signup logic using these values
+  
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+  
+      const response = await axios.post('http://127.0.0.1:5000/api/user', {
+        name,
+        email,
+        dateOfBirth: dob,
+        password,
+      }, config);
+  
+      console.log(response);
+  
+      if (response && response.data) {
+        console.log(response.data);
+        toast.success('Signup successful!');
+        navigate("/");
+      } else {
+        toast.error('Signup failed: Unexpected response format');
+      }
+    } catch (error) {
+      console.error(error); 
+      toast.error(`Signup failed: ${error.response ? error.response.data.message : 'Unexpected error'}`);
+    }
   };
 
   return (
@@ -62,17 +90,6 @@ const Signup = () => {
                   </div>
                   <div className="form-floating mb-3">
                     <input
-                      type="email"
-                      className="form-control"
-                      id="confirmEmail"
-                      placeholder="Confirm Email"
-                      value={confirmEmail}
-                      onChange={(e) => setConfirmEmail(e.target.value)}
-                    />
-                    <label htmlFor="confirmEmail">Confirm Email</label>
-                  </div>
-                  <div className="form-floating mb-3">
-                    <input
                       type="password"
                       className="form-control"
                       id="password"
@@ -81,6 +98,17 @@ const Signup = () => {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                     <label htmlFor="password">Password</label>
+                  </div>
+                  <div className="form-floating mb-3">
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="confirmpassword"
+                      placeholder="Confirm Password"
+                      value={confirmpassword}
+                      onChange={(e) => setConfirmpassword(e.target.value)}
+                    />
+                    <label htmlFor="confirmpassword">Confirm Password</label>
                   </div>
                   <div className="d-grid">
                     <button className="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Sign up</button>

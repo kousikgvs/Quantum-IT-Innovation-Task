@@ -4,12 +4,14 @@ const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 const path = require("path");
+const cors = require("cors")
 
 dotenv.config();
 connectDB();
 const app = express();
-
+app.use(cors())
 app.use(express.json());
+
 app.use("/api/user", userRoutes);
 
 // --------------------------deployment------------------------------

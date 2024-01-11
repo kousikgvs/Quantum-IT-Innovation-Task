@@ -114,7 +114,7 @@ const Signup = () => {
                     <button className="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Sign up</button>
                   </div>
                   <div className="text-center mt-3">
-                    Already have an account? <a href="/login" onClick={() => navigate("/")}>Login Here</a>
+                    Already have an account? <a href="/" onClick={() => navigate("/")}>Login Here</a>
                   </div>
                   <hr className="my-4" />
                 </form>
